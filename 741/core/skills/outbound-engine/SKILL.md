@@ -3,7 +3,7 @@ name: 741-outbound-engine
 description: Provider-neutral B2B outbound strategy and sequence engine for campaign briefs, research requirements, messaging, deliverability, capacity review and approved execution planning.
 ---
 
-# 741 Outbound Engine v1.3
+# 741 Outbound Engine
 
 ## Purpose
 
@@ -116,39 +116,25 @@ missing_data: []
 next_best_action: ""
 ```
 
-## Capability contracts
+## Capability resolution
 
-Read/research:
-- `crm.search_contacts`
-- `crm.search_companies`
-- `crm.search_deals`
-- `web.search`
-- `company.research`
-- `signals.search`
-- `spreadsheet.read`
-- `analytics.get_campaign_metrics`
-
-Draft/execution:
-- `email.create_draft`
-- `campaign.create_draft`
-- `campaign.update_draft`
-- `campaign.launch`
-- `messaging.create_draft`
-- `messaging.send`
-- `crm.create_lead`
-- `crm.add_note`
-
-## Connector behavior
-
-Target data and enrichment may come from any approved compatible source. Sending may be provided by any approved compatible email or campaign platform.
+Use `references/CAPABILITY_CONTRACTS.md` to map required capabilities to connected tools when available.
 
 A connected tool does not authorize sending, launching, publishing or mutating CRM data.
 
 Without execution connectors, remain useful in draft-only mode and produce research specifications, campaign briefs, sequence drafts, qualitative readiness observations and implementation instructions.
 
+## Approval policy
+
+Use `references/ACTION_APPROVAL_POLICY.md`.
+
+Drafting and launching are separate permissions.
+
 ## WLP mode
 
-Use only approved WLP knowledge for services, Colón Free Zone positioning, customer types, target geographies and known relationships.
+Use `references/WLP_CONTEXT.md`.
+
+Use only approved WLP facts for services, Colón Free Zone positioning, customer types, target geographies and known relationships.
 
 Do not assume a relationship, network membership, volume, signal or operational fact without supporting evidence.
 
