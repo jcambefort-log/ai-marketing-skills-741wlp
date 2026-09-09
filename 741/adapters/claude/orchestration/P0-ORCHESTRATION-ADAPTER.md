@@ -1,6 +1,6 @@
 # 741 P0 Orchestration Adapter — Claude
 
-Status: Draft implementation adapter for validated P0 logical integration
+Status: Validated for P0 manual logical handoff and same-session orchestration
 Provider: Claude
 Core contract: `741/core/orchestration/P0-ORCHESTRATION-CONTRACT.md`
 
@@ -308,11 +308,29 @@ A Claude P0 orchestration run passes when:
 ## Current validation status
 
 - Manual logical handoff: VALIDATED conceptually from provider-neutral P0 audit
-- Same-session Claude orchestration: RETEST REQUIRED after scoring-calibration and exact-count corrections
+- Same-session Claude orchestration: VALIDATED
 - Automatic multi-skill orchestration: NOT YET VALIDATED
 - Live MCP/connector execution: NOT YET VALIDATED
 
-## Previous same-session test observation
+## Validation evidence
+
+A controlled Claude same-session P0 retest passed after Claude reread the updated canonical WLP scoring model and this adapter.
+
+The passing retest demonstrated:
+
+- canonical prospect identity remained unresolved/UNKNOWN consistently across all four skills;
+- Sales Pipeline produced the canonical anchored outcome: ICP 100, Intent 100, Priority 100, Priority band REVIEW, confidence LOW;
+- Outbound consumed the scorecard frozen and did not recalculate it;
+- exactly 3 requested sample emails were returned as generic non-sendable drafts;
+- Sales Playbook returned exactly 10 requested discovery questions without inventing qualification evidence;
+- Revenue Intelligence analyzed only supplied observed events;
+- Revenue, Gross Profit, and Attribution remained UNKNOWN;
+- no causal claims were introduced;
+- no external action was executed or falsely claimed.
+
+Overall same-session retest result: PASS.
+
+## Historical first-test observation
 
 The first controlled Claude same-session P0 test preserved ownership, UNKNOWN values, revenue/GP/attribution boundaries, and no-execution gates, but did not pass because:
 
@@ -321,8 +339,8 @@ The first controlled Claude same-session P0 test preserved ownership, UNKNOWN va
 - 3 requested outbound emails were reduced to 1;
 - 10 requested discovery questions were reduced to 7.
 
-These are retest blockers, not reasons to alter the provider-neutral orchestration order.
+Those issues were corrected through canonical deterministic scoring anchors, confidence precedence, exact-output-count compliance, and the pre-finalization conformance check.
 
 ## Next validation
 
-Repeat the same controlled same-session P0 scenario in Claude after rereading the updated WLP `ICP.md` and this adapter. A passing retest must produce the canonical WLP scoring/calibration outcome, low confidence for unresolved identity, exactly 3 sample emails, exactly 10 discovery questions, and preserve all prior ownership/UNKNOWN/execution controls.
+The next unvalidated layer is automatic multi-skill orchestration and, separately, live MCP/connector execution. Neither is implied by same-session validation and both require their own controlled tests before being marked validated.
