@@ -18,7 +18,8 @@ Positioning pillars:
 ## Facilities and presence
 
 - Offices in Panama City and the Colón Free Zone.
-- Approximately 3,500 m² warehouse operation in the Colón Free Zone.
+- Current Colón Free Zone warehouse operation: approximately 2,800 m².
+- Strategic relocation target: approximately 3,500–4,000 m². This is a future target, not current capacity.
 - Pallet-rack storage for palletized cargo.
 - Bonded-zone operation allows goods to be stored and redistributed regionally, with destination-country duties handled according to the final import destination and applicable rules.
 
