@@ -30,6 +30,32 @@ It may determine how context is passed between Claude Agent Skills, project file
 
 The provider-neutral core remains authoritative.
 
+## Canonical-source precedence
+
+For WLP scoring, Claude must read and apply `741/knowledge/wlp/ICP.md` exactly, including deterministic calibration anchors and confidence precedence rules.
+
+When the WLP specialization provides an explicit anchor for the evidence at hand, that anchor overrides free-form model judgment.
+
+Examples for the canonical P0 test scenario:
+
+- freight forwarder + Guatemala + explicit Panama-partner need + FCL/LCL + consolidation + Colón Free Zone warehousing + regional redistribution -> use the explicit WLP anchors in `ICP.md`;
+- unresolved company identity -> confidence `low`, even when evidence coverage falls in the nominal medium range.
+
+Claude must not substitute its own 0-10 interpretation when an explicit WLP anchor applies.
+
+## Exact-output-count compliance
+
+If the user requests a specific number of outputs, Claude must return exactly that number unless prevented by safety or missing evidence.
+
+Examples:
+
+- `3 sample emails` -> exactly 3 complete draft emails;
+- `10 discovery questions` -> exactly 10 discovery questions.
+
+Do not silently reduce requested counts because the prospect is unresolved. Use generic, clearly labeled drafts/questions that preserve UNKNOWNs rather than omitting requested outputs.
+
+This rule applies across the full integrated P0 run.
+
 ## Claude orchestration modes
 
 ### 1. Manual handoff mode
@@ -58,6 +84,7 @@ Procedure:
 5. Allow Sales Playbook to add only its owned fields.
 6. Allow Revenue Intelligence to read only observed funnel events and supported financial/attribution evidence.
 7. Preserve prior authoritative values unless new evidence is routed back to the owning skill.
+8. Before finalizing, verify exact requested output counts and official WLP scoring/calibration conformance.
 
 ### 3. Tool-assisted orchestration mode
 
@@ -215,7 +242,8 @@ When the user asks for an integrated P0 workflow, Claude should normally:
 4. preserve authoritative upstream outputs;
 5. summarize meaningful handoffs rather than duplicating all internal state;
 6. clearly state when external execution has not occurred;
-7. request approval only when an actual external-action boundary requires it.
+7. request approval only when an actual external-action boundary requires it;
+8. satisfy exact user-requested output counts.
 
 ## Automatic execution boundary
 
@@ -243,14 +271,32 @@ If a required skill, tool, MCP server, connector, or evidence source is unavaila
 4. continue in manual/draft mode where useful;
 5. recommend the smallest next step required to proceed.
 
+## Pre-finalization conformance check
+
+Before returning an integrated P0 result, Claude should verify:
+
+1. official WLP scoring matches all applicable deterministic anchors in `741/knowledge/wlp/ICP.md`;
+2. unresolved identity forces `confidence: low` when the WLP model says so;
+3. requested counts are exact;
+4. frozen scorecard values were not changed downstream;
+5. UNKNOWN values remain UNKNOWN;
+6. drafts/plans were not converted into observed events;
+7. revenue, GP, attribution, benchmarks, and causality were not inferred without evidence;
+8. no external action was falsely claimed.
+
+If any check fails, correct the output before finalizing rather than reporting PASS.
+
 ## Audit checklist
 
 A Claude P0 orchestration run passes when:
 
 - canonical prospect/account identity is preserved
 - Sales Pipeline remains the scoring authority
+- WLP deterministic scoring anchors are applied when applicable
+- WLP confidence precedence is applied correctly
 - Outbound does not alter official scoring
 - Sales Playbook does not invent qualification evidence
+- exact requested output counts are satisfied
 - Revenue Intelligence only analyzes observed events
 - UNKNOWN remains UNKNOWN
 - revenue and GP are not fabricated
@@ -262,10 +308,21 @@ A Claude P0 orchestration run passes when:
 ## Current validation status
 
 - Manual logical handoff: VALIDATED conceptually from provider-neutral P0 audit
-- Same-session Claude orchestration: NOT YET VALIDATED
+- Same-session Claude orchestration: RETEST REQUIRED after scoring-calibration and exact-count corrections
 - Automatic multi-skill orchestration: NOT YET VALIDATED
 - Live MCP/connector execution: NOT YET VALIDATED
 
+## Previous same-session test observation
+
+The first controlled Claude same-session P0 test preserved ownership, UNKNOWN values, revenue/GP/attribution boundaries, and no-execution gates, but did not pass because:
+
+- Claude applied free-form 0-10 scoring instead of the deterministic WLP calibration expected for the canonical scenario;
+- unresolved identity was incorrectly reported as medium confidence instead of low;
+- 3 requested outbound emails were reduced to 1;
+- 10 requested discovery questions were reduced to 7.
+
+These are retest blockers, not reasons to alter the provider-neutral orchestration order.
+
 ## Next validation
 
-Run one controlled same-session P0 scenario in Claude using the canonical handoff rules and verify that all four skills preserve ownership and UNKNOWN semantics without manual copy/paste between separate sessions.
+Repeat the same controlled same-session P0 scenario in Claude after rereading the updated WLP `ICP.md` and this adapter. A passing retest must produce the canonical WLP scoring/calibration outcome, low confidence for unresolved identity, exactly 3 sample emails, exactly 10 discovery questions, and preserve all prior ownership/UNKNOWN/execution controls.
