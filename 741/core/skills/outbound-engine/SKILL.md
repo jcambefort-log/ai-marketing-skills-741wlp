@@ -1,9 +1,9 @@
 ---
 name: 741-outbound-engine
-description: Provider-neutral B2B outbound strategy and sequence engine. Builds ICP-based campaigns, research briefs, messaging, quality scoring, deliverability review, capacity plans, and execution plans without requiring a specific data or sending platform.
+description: Provider-neutral B2B outbound strategy and sequence engine. Builds ICP-based campaigns, research briefs, messaging, quality reviews, deliverability reviews, capacity plans, and approved execution plans without requiring a specific data or sending platform.
 ---
 
-# 741 Outbound Engine
+# 741 Outbound Engine v1.1
 
 ## Purpose
 
@@ -28,15 +28,17 @@ Design high-quality B2B outbound campaigns from ICP to qualified conversation wh
 4. **Research each account/contact**
    Separate facts from inference. Capture source and freshness for important personalization claims.
 
-5. **Score targets**
-   Score:
-   - ICP fit
-   - trigger strength
+5. **Evaluate outbound readiness**
+   Evaluate only dimensions explicitly supported by this skill or an approved referenced scoring model. Possible outbound-readiness dimensions include:
+   - ICP relevance
+   - trigger evidence
    - personalization evidence
    - likely need
    - relationship/network relevance
    - contact relevance
    - timing
+
+   Do not invent tiers, eligibility states, hidden aggregate formulas, acronyms, or score thresholds.
 
 6. **Choose sequence strategy**
    Define channels, number of touches, spacing, objective per touch, stop conditions and handoff criteria.
@@ -59,7 +61,7 @@ Design high-quality B2B outbound campaigns from ICP to qualified conversation wh
    Keep deliverability controls distinct from persuasive copy. Flag risky volume, poor list quality, misleading identity, unsupported claims, or overly aggressive cadence.
 
 10. **Capacity plan**
-   Ensure campaign volume is compatible with human follow-up capacity. A campaign that produces more replies than the team can handle is not well designed.
+   Ensure campaign volume is compatible with human follow-up capacity. Do not invent daily/weekly sending limits, operational capacity, or team workload assumptions.
 
 11. **Human review gate**
    Present campaign, sample contacts, sequence, assumptions, exclusions, and expected actions before any external launch/write unless autonomous execution for that exact workflow has been deliberately authorized.
@@ -70,30 +72,54 @@ Design high-quality B2B outbound campaigns from ICP to qualified conversation wh
 13. **Readback and learning**
    Track delivery, positive replies, meetings, qualification, opportunities and revenue when data is available. Separate list quality, copy quality, offer quality and sales follow-up effects.
 
+## Output completeness rule
+
+When the user explicitly requests a number of outputs, examples, emails, messages, variants, targets, or sequence steps, return exactly that number unless a safety, evidence, or capability constraint prevents it. If unable, state which requested item could not be produced and why.
+
+Example: if the user requests 3 sample email drafts, return 3 complete sample email drafts.
+
+## Methodology integrity rules
+
+- Do not claim that “741 requires”, “741 establishes”, or “the framework defines” a rule unless that rule is present in this skill or an approved bundled reference.
+- Do not introduce unexplained concepts such as tiers, IMS, eligibility classes, maturity states, or proprietary acronyms.
+- Do not import terminology from an upstream/original skill unless it has been explicitly adopted into the 741 core or WLP knowledge layer.
+- Do not invent scoring weights, thresholds, or formulas.
+- Unknown is not zero.
+- Network membership is evidence of network membership only. It is not proof of buying intent, need, relationship with WLP, or commercial priority.
+- Named networks, companies, contacts, buying signals, volumes and relationships must come from user-provided information, approved WLP knowledge, or verifiable research evidence.
+
+## Relationship with 741 Sales Pipeline
+
+Outbound Engine and Sales Pipeline are separate skills with a defined handoff:
+
+- **Outbound Engine** designs target specifications, research requirements, sequence strategy, copy, deliverability review, capacity review, and campaign execution plan.
+- **Sales Pipeline** owns WLP prospect qualification and priority scoring when the approved WLP Scoring Model is being used.
+
+Outbound Engine may consume an already-produced Sales Pipeline scorecard or request that scoring be performed using the approved WLP model. It must not recreate, modify, substitute, or extend the Sales Pipeline scoring formula.
+
+If no Sales Pipeline scorecard is available, Outbound Engine may evaluate qualitative outbound readiness using evidence, but must not present that as the official WLP Priority Score.
+
 ## Output schema
 
 ```yaml
 campaign_name: ""
 objective: ""
+facts: []
+assumptions: []
+unknowns: []
 icp: {}
 exclusions: []
-targets:
-  - company: ""
-    contact: ""
-    fit_score: 0
-    trigger_score: 0
-    evidence: []
-    confidence: low|medium|high
-sequence:
-  - touch: 1
-    channel: email|linkedin|other
-    objective: ""
-    delay_days: 0
-    draft: ""
-quality_score: 0
-risks: []
+target_list_specification: {}
+research_fields_required: []
+outbound_readiness_criteria: []
+sequence_strategy: []
+sample_drafts: []
+deliverability_risks: []
+capacity_considerations: []
 approval_state: draft|review_required|approved_for_launch
 success_metrics: []
+missing_data: []
+next_best_action: ""
 ```
 
 ## Capability contracts
@@ -118,13 +144,11 @@ Draft/execution:
 - `crm.create_lead`
 - `crm.add_note`
 
-## Connector examples
+## Connector behavior
 
-Target data/enrichment may come from Apollo, Clay, LeadMagic, ZoomInfo, Crunchbase, network directories, web research, CRM exports or other approved sources.
+Target data/enrichment may come from any approved compatible source. Sending may be provided by any approved compatible email/campaign platform. LinkedIn execution may be manual or use an approved integration.
 
-Sending may be provided by Instantly, Smartlead, HubSpot, Salesforce, Gmail, Outlook/Microsoft 365 or another approved platform.
-
-LinkedIn execution may be manual or use an approved integration. The core never assumes automated LinkedIn outreach is available or authorized.
+A connected tool does not imply authorization to send, enroll, launch, mutate CRM data, or publish.
 
 ## Fallback behavior
 
@@ -133,19 +157,21 @@ Without execution connectors, produce:
 - research plan
 - campaign brief
 - sequence drafts
-- scoring table
+- qualitative readiness criteria
 - implementation instructions
 
-The skill remains useful in draft-only mode.
+The skill remains fully useful in draft-only mode.
 
 ## Approval policy
 
-Follow `741/core/policies/ACTION_APPROVAL_POLICY.md`. Drafting and launching are separate permissions.
+Follow the 741 Action Approval Policy. Drafting and launching are separate permissions.
 
 ## WLP specialization hook
 
-WLP-specific freight-forwarder ICPs, trade lanes, service propositions, Colón Free Zone positioning, network relationships, target countries, qualification criteria and sales voice belong in `741/knowledge/wlp/`.
+For WLP tasks, use only approved WLP knowledge for freight-forwarder ICPs, services, Colón Free Zone positioning, known network relationships, target countries, qualification criteria and sales voice.
+
+Do not assume membership in a named logistics network or a relationship with WLP unless supported by approved knowledge or evidence.
 
 ## Portability
 
-ChatGPT and Claude use this same core. Provider-specific tools and installation metadata live only in their adapters.
+ChatGPT and Claude use this same core business logic. Provider-specific tools and installation metadata live only in their adapters.
