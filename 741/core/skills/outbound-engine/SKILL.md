@@ -118,7 +118,7 @@ next_best_action: ""
 
 ## Capability resolution
 
-Use `references/CAPABILITY_CONTRACTS.md` to map required capabilities to connected tools when available.
+Use `741/core/capability-contracts/README.md` to map required capabilities to connected tools when available.
 
 A connected tool does not authorize sending, launching, publishing or mutating CRM data.
 
@@ -126,13 +126,13 @@ Without execution connectors, remain useful in draft-only mode and produce resea
 
 ## Approval policy
 
-Use `references/ACTION_APPROVAL_POLICY.md`.
+Use `741/core/policies/ACTION_APPROVAL_POLICY.md`.
 
 Drafting and launching are separate permissions.
 
 ## WLP mode
 
-Use `references/WLP_CONTEXT.md`.
+Use `741/knowledge/wlp/COMPANY_PROFILE.md` and `741/knowledge/wlp/ICP.md`.
 
 Use only approved WLP facts for services, Colón Free Zone positioning, customer types, target geographies and known relationships.
 
