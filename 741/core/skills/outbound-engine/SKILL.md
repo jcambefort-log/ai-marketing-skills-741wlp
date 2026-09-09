@@ -1,9 +1,9 @@
 ---
 name: 741-outbound-engine
-description: Provider-neutral B2B outbound strategy and sequence engine. Builds ICP-based campaigns, research briefs, messaging, quality reviews, deliverability reviews, capacity plans, and approved execution plans without requiring a specific data or sending platform.
+description: Provider-neutral B2B outbound strategy and sequence engine. Builds ICP-based campaign briefs, research requirements, messaging, quality reviews, deliverability reviews, capacity plans, and approved execution plans without requiring a specific data or sending platform.
 ---
 
-# 741 Outbound Engine v1.1
+# 741 Outbound Engine v1.2
 
 ## Purpose
 
@@ -11,93 +11,102 @@ Design high-quality B2B outbound campaigns from ICP to qualified conversation wh
 
 ## Workflow
 
-1. **Define campaign objective**
-   - target segment
-   - geography
-   - offer/service
-   - desired commercial action
-   - success metric
-   - campaign constraints
+1. Define campaign objective: target segment, geography, offer/service, desired commercial action, success metric, constraints.
+2. Define ICP and exclusions.
+3. Build or specify a target list.
+4. Research each account/contact using evidence with source and freshness.
+5. Evaluate qualitative outbound readiness only from supported evidence.
+6. Choose sequence strategy: channels, touches, spacing, objective per touch, stop conditions, handoff criteria.
+7. Generate messaging without fabricated personalization.
+8. Review relevance, clarity, credibility, differentiation, personalization, CTA friction, spamminess and factual support.
+9. Review deliverability/reputation separately from persuasive copy.
+10. Match campaign volume to real human follow-up capacity; do not invent capacity thresholds.
+11. Present campaign design for human review before external launch/write unless the exact workflow has deliberately been authorized for autonomous execution.
+12. Launch only through an approved capability after the required approval state.
+13. Read back delivery, positive replies, meetings, qualification, opportunities and revenue when data is available.
 
-2. **Define ICP and exclusions**
-   Specify firmographic, geographic, operational and buying-context criteria. Also define who should not be contacted.
+## Strict vocabulary boundary
 
-3. **Build or ingest target list**
-   Sources may include CRM, spreadsheet, business database, web research, network directories, conference lists, referrals, approved enrichment providers, or manual input.
+For this skill, do not create or use proprietary prospect-state labels that are not explicitly requested by the user.
 
-4. **Research each account/contact**
-   Separate facts from inference. Capture source and freshness for important personalization claims.
+The following vocabulary is specifically prohibited as Outbound Engine methodology unless the user explicitly asks to use an external framework that contains it:
+- eligibility / eligible / conditionally eligible
+- tier / tiering / Tier 1 / Tier 2 / Tier 3
+- IMS
+- monitor only
+- hold as a formal prospect class
+- maturity state
+- proprietary stage acronyms
 
-5. **Evaluate outbound readiness**
-   Evaluate only dimensions explicitly supported by this skill or an approved referenced scoring model. Possible outbound-readiness dimensions include:
-   - ICP relevance
-   - trigger evidence
-   - personalization evidence
-   - likely need
-   - relationship/network relevance
-   - contact relevance
-   - timing
+Do not replace these with new invented labels.
 
-   Do not invent tiers, eligibility states, hidden aggregate formulas, acronyms, or score thresholds.
+When a prospect is not ready for outreach, describe the factual reason directly, for example:
+- identity not verified
+- contact not verified
+- suppression check pending
+- insufficient evidence
+- needs manual review
 
-6. **Choose sequence strategy**
-   Define channels, number of touches, spacing, objective per touch, stop conditions and handoff criteria.
+`needs manual review` is an operational instruction, not a scoring class or tier.
 
-7. **Generate messaging**
-   Messaging should be specific to the target and business problem. Avoid fabricated facts and unsupported personalization.
+## Methodology claim rule
 
-8. **Quality review**
-   Evaluate:
-   - relevance
-   - clarity
-   - credibility
-   - differentiation
-   - personalization
-   - CTA friction
-   - spamminess
-   - factual support
+Never write phrases such as:
+- “741 requires ...”
+- “741 establishes ...”
+- “the 741 framework defines ...”
+- “this matches the existing 741 specification ...”
 
-9. **Deliverability / reputation review**
-   Keep deliverability controls distinct from persuasive copy. Flag risky volume, poor list quality, misleading identity, unsupported claims, or overly aggressive cadence.
+Instead, state the actual instruction directly.
 
-10. **Capacity plan**
-   Ensure campaign volume is compatible with human follow-up capacity. Do not invent daily/weekly sending limits, operational capacity, or team workload assumptions.
-
-11. **Human review gate**
-   Present campaign, sample contacts, sequence, assumptions, exclusions, and expected actions before any external launch/write unless autonomous execution for that exact workflow has been deliberately authorized.
-
-12. **Launch through connector**
-   Use an approved campaign/email/messaging connector only after the required approval state.
-
-13. **Readback and learning**
-   Track delivery, positive replies, meetings, qualification, opportunities and revenue when data is available. Separate list quality, copy quality, offer quality and sales follow-up effects.
+Only identify a rule as belonging to this installed skill when necessary and when the rule is explicitly contained in this package. Do not cite hidden, upstream, prior-version, repository-only, or unavailable references as authority.
 
 ## Output completeness rule
 
-When the user explicitly requests a number of outputs, examples, emails, messages, variants, targets, or sequence steps, return exactly that number unless a safety, evidence, or capability constraint prevents it. If unable, state which requested item could not be produced and why.
+If the user explicitly requests N outputs, examples, emails, messages, variants, targets or steps, return exactly N unless a safety, evidence or capability constraint prevents it.
 
-Example: if the user requests 3 sample email drafts, return 3 complete sample email drafts.
+If the user requests 3 sample email drafts, return exactly 3 complete drafts.
 
-## Methodology integrity rules
+## Evidence integrity
 
-- Do not claim that “741 requires”, “741 establishes”, or “the framework defines” a rule unless that rule is present in this skill or an approved bundled reference.
-- Do not introduce unexplained concepts such as tiers, IMS, eligibility classes, maturity states, or proprietary acronyms.
-- Do not import terminology from an upstream/original skill unless it has been explicitly adopted into the 741 core or WLP knowledge layer.
-- Do not invent scoring weights, thresholds, or formulas.
-- Unknown is not zero.
-- Network membership is evidence of network membership only. It is not proof of buying intent, need, relationship with WLP, or commercial priority.
-- Named networks, companies, contacts, buying signals, volumes and relationships must come from user-provided information, approved WLP knowledge, or verifiable research evidence.
+- Separate facts, assumptions and unknowns when material.
+- Unknown is not zero, positive evidence or negative evidence.
+- Do not invent companies, contacts, volumes, relationships, buying signals, network memberships, senders, infrastructure, capacity, deliverability status, campaign status or execution results.
+- Network membership is evidence of network membership only. It is not proof of buying intent, need, WLP relationship or commercial priority.
+- Named networks, companies, contacts, buying signals, volumes and relationships require user-provided information, approved WLP knowledge or verifiable research evidence.
 
 ## Relationship with 741 Sales Pipeline
 
-Outbound Engine and Sales Pipeline are separate skills with a defined handoff:
+Outbound Engine owns:
+- campaign objective
+- ICP/exclusions
+- target-list specification
+- research requirements
+- qualitative outbound readiness
+- sequence strategy
+- messaging
+- deliverability review
+- capacity review
+- campaign execution plan
 
-- **Outbound Engine** designs target specifications, research requirements, sequence strategy, copy, deliverability review, capacity review, and campaign execution plan.
-- **Sales Pipeline** owns WLP prospect qualification and priority scoring when the approved WLP Scoring Model is being used.
+Sales Pipeline owns:
+- official WLP qualification scoring
+- official WLP Priority Score and priority band
+- WLP scoring evidence coverage
+- scoring-based routing and suppression logic
 
-Outbound Engine may consume an already-produced Sales Pipeline scorecard or request that scoring be performed using the approved WLP model. It must not recreate, modify, substitute, or extend the Sales Pipeline scoring formula.
+Outbound Engine may consume an already-produced Sales Pipeline scorecard or ask for Sales Pipeline scoring when appropriate. It must not recreate, modify, substitute or extend the WLP scoring formula.
 
-If no Sales Pipeline scorecard is available, Outbound Engine may evaluate qualitative outbound readiness using evidence, but must not present that as the official WLP Priority Score.
+Without a Sales Pipeline scorecard, Outbound Engine must keep official WLP numeric prospect scores as `unknown` and use qualitative observations only.
+
+## Approval state vocabulary
+
+For campaign execution state, use only:
+- `draft`
+- `review_required`
+- `approved_for_launch`
+
+These describe the campaign's authorization state, not the prospect's score or commercial tier.
 
 ## Output schema
 
@@ -111,7 +120,7 @@ icp: {}
 exclusions: []
 target_list_specification: {}
 research_fields_required: []
-outbound_readiness_criteria: []
+outbound_readiness_observations: []
 sequence_strategy: []
 sample_drafts: []
 deliverability_risks: []
@@ -148,30 +157,16 @@ Draft/execution:
 
 Target data/enrichment may come from any approved compatible source. Sending may be provided by any approved compatible email/campaign platform. LinkedIn execution may be manual or use an approved integration.
 
-A connected tool does not imply authorization to send, enroll, launch, mutate CRM data, or publish.
+A connected tool does not imply authorization to send, enroll, launch, mutate CRM data or publish.
 
-## Fallback behavior
+Without execution connectors, remain useful in draft-only mode and produce research specifications, campaign brief, sequence drafts, qualitative readiness observations and implementation instructions.
 
-Without execution connectors, produce:
-- target-list specification
-- research plan
-- campaign brief
-- sequence drafts
-- qualitative readiness criteria
-- implementation instructions
+## WLP mode
 
-The skill remains fully useful in draft-only mode.
+For WLP tasks, use only approved WLP knowledge for services, Colón Free Zone positioning, customer types, target geographies and known relationships.
 
-## Approval policy
-
-Follow the 741 Action Approval Policy. Drafting and launching are separate permissions.
-
-## WLP specialization hook
-
-For WLP tasks, use only approved WLP knowledge for freight-forwarder ICPs, services, Colón Free Zone positioning, known network relationships, target countries, qualification criteria and sales voice.
-
-Do not assume membership in a named logistics network or a relationship with WLP unless supported by approved knowledge or evidence.
+Do not assume membership in a named logistics network or relationship with WLP unless supported by approved knowledge or evidence.
 
 ## Portability
 
-ChatGPT and Claude use this same core business logic. Provider-specific tools and installation metadata live only in their adapters.
+ChatGPT and Claude use this same core business logic. Provider-specific tool invocation belongs in adapters/connectors, not in the core workflow.
