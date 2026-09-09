@@ -18,11 +18,21 @@ Apply the canonical workflow in `741/core/skills/sales-pipeline/SKILL.md` and ca
 
 ## WLP mode
 
-For Warehouse Logistics Partners work, use the relevant knowledge under `741/knowledge/wlp/` while preserving the generic core.
+For Warehouse Logistics Partners work, use `741/knowledge/wlp/ICP.md` as the authoritative WLP scoring model and the relevant approved WLP knowledge under `741/knowledge/wlp/`.
 
-## Guardrails
+### Display precedence
 
-- Never invent CRM records, intent signals, freight volumes, or contact activity.
+When `741/knowledge/wlp/ICP.md` says that a material identity or suppression question remains, the user-visible `priority_band` must be `REVIEW`.
+
+Do not display `P2 HIGH - provisional`, `P1 CRITICAL`, or another numeric band as the operative priority band when `REVIEW` precedence applies. A numeric-band counterfactual may be mentioned only as explanatory context, clearly subordinate to the official displayed band.
+
+If company identity is materially unresolved, apply the WLP confidence-precedence rule and return `confidence: low` even when evidence coverage falls in the nominal medium range.
+
+## Evidence discipline
+
+- Never invent CRM records, intent signals, freight volumes, contact activity, company identity, relationship history, network membership, sender identity, or source verification.
+- Network names or memberships may be scored or stated as facts only when supported by user input, approved WLP knowledge, or verified research for the prospect.
 - Tool availability is not blanket authorization.
 - Do not send or enroll outreach without appropriate user authorization.
 - State when scoring relies on incomplete evidence.
+- Unknown is not zero and unknown suppression checks are not clear.
