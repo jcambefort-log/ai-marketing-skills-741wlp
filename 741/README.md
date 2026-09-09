@@ -12,12 +12,12 @@ Keep business logic portable across ChatGPT/OpenAI and Claude/Anthropic. Product
 - `core/shared/` reusable reasoning modules
 - `core/capability-contracts/` capabilities requested by skills
 - `core/policies/` safety, approval and data-handling rules
-- `core/orchestration/` cross-skill authority and routing contracts
+- `core/orchestration/` cross-skill authority and handoff contracts
 - `adapters/chatgpt/` ChatGPT-specific packaging/instructions
 - `adapters/claude/` Claude-specific packaging/instructions
 - `connectors/` optional product/platform integrations
 - `knowledge/wlp/` WLP-specific knowledge and operating context
-- `audit/` validation and compatibility records
+- `audit/` build and validation records
 
 ## Design rules
 
@@ -29,50 +29,39 @@ Keep business logic portable across ChatGPT/OpenAI and Claude/Anthropic. Product
 6. Secrets and credentials never live in skill instructions or committed configuration.
 7. Shared core behavior should remain functionally equivalent in ChatGPT and Claude unless a platform capability makes exact parity impossible.
 8. Upstream telemetry is not part of 741 core.
-9. UNKNOWN remains UNKNOWN when evidence is missing.
-10. Domain authorities must remain separate; downstream skills may consume authoritative outputs but may not silently rewrite them.
+9. UNKNOWN remains UNKNOWN unless evidence resolves it.
+10. Domain authorities may be consumed by downstream skills but not silently rewritten.
 
-## P0 Commercial Core
+## 741 skill portfolio
 
-Validated commercial core:
+### P0 Commercial Core — validated
 
-1. `741-sales-pipeline`
-2. `741-outbound-engine`
-3. `741-sales-playbook`
-4. `741-revenue-intelligence`
+1. `sales-pipeline`
+2. `outbound-engine`
+3. `sales-playbook`
+4. `revenue-intelligence`
 
-## P1 Growth & Marketing Core
+### P1 Growth & Marketing — functionally validated at repository level
 
-New provider-neutral P1 layer:
+5. `growth-engine`
+6. `content-quality`
+7. `seo-intelligence`
+8. `conversion-intelligence`
+9. `deck-builder`
 
-5. `741-growth-engine`
-6. `741-content-quality`
-7. `741-seo-intelligence`
-8. `741-conversion-intelligence`
-9. `741-deck-builder`
+P1 authority and orchestration rules live in `741/core/orchestration/P1-GROWTH-MARKETING-CONTRACT.md`.
+Repository-level validation is documented in `741/audit/741_P1_GROWTH_MARKETING_FUNCTIONAL_VALIDATION_v1.0.md`.
+Live connector execution and separate Claude.ai installed-runtime validation remain outside that repository-level validation.
 
-See `core/orchestration/P1-GROWTH-MARKETING-CONTRACT.md` for ownership and cross-skill routing.
+## WLP domain-authority boundaries
 
-## WLP domain specialists
+The 741 layer does not replace WLP domain-specialist skills where those exist.
 
-WLP-specific domain authority remains outside the generic 741 core where appropriate:
+- WLP Financial Sentinel: WLP pricing/financial protection and policy
+- WLP Commercial Partner: WLP commercial voice and communication conventions
+- WLP Org Guardian: organizational coherence and sequencing
+- WLP Brand Expert: WLP brand execution
+- Double Loop Personal WLP: strategic hypothesis/decision learning
 
-- WLP Financial Sentinel
-- WLP Commercial Partner
-- WLP Org Guardian
-- WLP Brand Expert
-- Double Loop Personal WLP
-
-These specialists may consume or supply evidence to 741 workflows without losing their domain authority.
-
-## Upstream audit policy
-
-The upstream `ericosiu/ai-marketing-skills` catalog is an idea and implementation source, not an authority. Upstream skills are audited before adoption and classified as:
-
-- convert
-- absorb selectively
-- overlap
-- defer
-- no priority
-
-Do not copy vendor-specific scripts, telemetry, credentials, scoring assumptions or automated actions into 741 core without review.
+741 Sales Pipeline remains the authority for official WLP prospect scoring.
+741 Revenue Intelligence remains the authority for observed revenue, GP, pipeline and attribution analysis.
