@@ -56,6 +56,39 @@ For each dimension assign:
 
 The model must list the evidence supporting each score.
 
+## Deterministic calibration anchors
+
+To keep the same evidence producing the same official WLP score across ChatGPT, Claude, and other compliant runtimes, use these anchors before applying judgment.
+
+General scale:
+- `10`: explicit, direct evidence fully satisfies the approved criterion for that dimension, with no material contradiction relevant to that dimension.
+- `8-9`: strong but incomplete evidence; an important part of the criterion is only partially established.
+- `5-7`: moderate evidence; fit or intent is plausible but materially incomplete.
+- `1-4`: weak evidence; only limited support exists.
+- `0`: explicit evidence supports no fit / no intent for that dimension.
+- `unknown`: evidence is insufficient to score the dimension at all.
+
+Do not reduce a dimension from `10` merely because other, separate dimensions are unknown. Missing relationship, volume, contact, timing, or budget must affect their own dimensions or evidence coverage, not dilute a fully supported known dimension.
+
+### WLP ICP A anchor examples
+
+For a freight-forwarder prospect:
+
+- **Service fit = 10** when the prospect explicitly states it is evaluating or needs a Panama partner for a combination that directly matches WLP core services, such as FCL/LCL, consolidation, bonded warehousing in the Colón Free Zone, cross-dock, fulfillment, or regional redistribution. The canonical P0 test scenario with FCL/LCL + consolidation + Colón Free Zone warehousing + regional redistribution is `10`.
+- **Geographic/regional fit = 10** when the prospect is in Central America, the Caribbean, or South America and the stated need explicitly involves Panama / the Colón Free Zone as part of the regional logistics solution. A Guatemala freight forwarder explicitly evaluating a Panama partner is `10`.
+- **Customer-type fit = 10** when the prospect is explicitly identified as a freight forwarder, NVOCC, logistics agency, or equivalent international logistics agent. A freight forwarder is `10`.
+- **Relationship/network relevance** remains `unknown` unless relationship or network evidence exists.
+- **Commercial potential** remains `unknown` unless economic/volume evidence exists.
+- **Contact/decision-maker fit** remains `unknown` unless contact evidence exists.
+
+### WLP Intent anchor examples
+
+- **Explicit active need / partner search / RFQ = 10** when the prospect is explicitly stated to be actively evaluating, searching for, or requesting a partner or WLP-relevant solution. The phrase `is evaluating a partner in Panama` is sufficient for `10` on this dimension.
+- **Need specificity = 10** when the user or verified evidence names concrete WLP-relevant service requirements or use cases rather than only a generic interest. The canonical combination FCL/LCL + consolidation + Colón Free Zone warehousing + regional redistribution is `10`.
+- Timing/urgency, recent engagement, trigger event, and project/shipment/implementation evidence remain `unknown` unless separately supported.
+
+These anchors are part of the approved WLP Scoring Model v1.0 implementation guidance. They do not add new weights or change the model; they calibrate how the existing 0-10 dimensions are applied consistently.
+
 ## ICP Score
 
 ICP Score measures structural fit, independent of current buying urgency.
@@ -164,6 +197,8 @@ Do not silently substitute another formula.
 
 If score is >=85 but evidence coverage is below 70%, label `P2 HIGH - provisional` rather than P1.
 
+When a material identity/suppression question remains, `REVIEW` takes precedence over a numeric priority band for routing/qualification display.
+
 ## Confidence
 
 Confidence is not another commercial score. It represents evidence completeness and reliability.
@@ -172,6 +207,12 @@ Use:
 - `high`: >=80% evidence coverage, sources are current and prospect identity is sufficiently resolved
 - `medium`: 50-79% evidence coverage or some material fields are unknown
 - `low`: <50% evidence coverage, stale/weak evidence, or unresolved identity
+
+### Confidence precedence
+
+`Unresolved identity` is an explicit LOW-confidence condition and overrides the medium evidence-coverage range.
+
+If company identity is materially unresolved for the prospect being scored, confidence must be `low` even when evidence coverage is between 50% and 79%.
 
 Do not invent a numeric confidence percentage unless a future approved model defines one.
 
