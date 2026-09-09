@@ -61,6 +61,7 @@ Do not use this skill as a substitute for ordinary reporting, prospect scoring, 
 
 8. **Evaluate result**
    Possible outcomes:
+   - `not_evaluated`
    - `promote`
    - `keep_testing`
    - `discard`
@@ -72,6 +73,15 @@ Do not use this skill as a substitute for ordinary reporting, prospect scoring, 
 
 10. **Suggest next experiment**
     Prioritize the next highest-value uncertainty instead of generating endless variants.
+
+## Experiment lifecycle rules
+
+- `planned` experiments must use `result: not_evaluated`.
+- `running` experiments must use `result: not_evaluated` unless the user explicitly asks for an interim directional read; an interim read still must not be treated as a final experiment result.
+- `completed` experiments may use `promote`, `keep_testing`, `discard`, or `inconclusive` only when observed evidence supports evaluation.
+- `invalid` experiments use `invalid_test`.
+- Do not use `UNKNOWN` as the formal `result` value merely because the experiment has not run; preserve missing fields inside `missing_data` and use `not_evaluated` for lifecycle state.
+- Do not state `experiments completed = 0` unless an authoritative source establishes that zero. If the supplied scenario contains no completed experiment evidence, say `completed experiments evidenced in supplied data: none`.
 
 ## Statistical integrity
 
@@ -132,7 +142,7 @@ data_sources: []
 confounders: []
 observed_results: []
 analysis_method: ""
-result: promote|keep_testing|discard|inconclusive|invalid_test
+result: not_evaluated|promote|keep_testing|discard|inconclusive|invalid_test
 confidence: low|medium|high
 playbook_change_recommended: ""
 next_experiment: ""
