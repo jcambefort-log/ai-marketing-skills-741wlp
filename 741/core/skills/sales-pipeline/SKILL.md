@@ -30,10 +30,10 @@ The core workflow is product-neutral. HubSpot, Salesforce, Dynamics, Zoho, Piped
    - engagement or intent signals
 
 3. **Score ICP fit**
-   Evaluate fit against the configured ICP. Keep the scoring model explainable and editable.
+   Evaluate fit against the configured ICP. Keep the scoring model explainable and editable. If a specialization provides an approved scoring model, use it exactly. Do not invent weights, formulas, thresholds, or normalization rules.
 
 4. **Score intent / buying signal**
-   Use available evidence such as relevant page visits, RFQ activity, hiring, expansion, funding, new market entry, partner searches, shipment/logistics needs, previous quotes, or recent engagement.
+   Use available evidence such as relevant page visits, RFQ activity, hiring, expansion, funding, new market entry, partner searches, shipment/logistics needs, previous quotes, or recent engagement. Unknown evidence must remain unknown rather than being scored as zero.
 
 5. **Run suppression checks**
    Check for reasons not to contact or not to route automatically, including:
@@ -43,11 +43,13 @@ The core workflow is product-neutral. HubSpot, Salesforce, Dynamics, Zoho, Piped
    - explicit opt-out / do-not-contact
    - incompatible geography or segment
    - duplicate company/contact
-   - insufficient evidence
+   - insufficient identity/evidence for external action
    - legal/compliance restriction supplied by the organization
 
+   Unknown suppression checks remain `unknown`; unknown is not equivalent to clear or suppressed.
+
 6. **Route the lead**
-   Assign a recommended route based on fit, intent, relationship, geography, service need, urgency, and ownership rules.
+   Assign a recommended route based on fit, intent, relationship, geography, service need, urgency, ownership rules, and evidence coverage.
 
 7. **Generate next-best action**
    Examples:
@@ -66,6 +68,17 @@ The core workflow is product-neutral. HubSpot, Salesforce, Dynamics, Zoho, Piped
 9. **ICP learning**
    Compare approved/rejected leads and won/lost opportunities to propose changes to ICP weights or filters. Do not silently rewrite ICP rules. Return recommendations for review.
 
+## Scoring integrity rules
+
+- Never create a scoring formula ad hoc just because the user requests a numeric result.
+- If an approved specialization model exists, use its dimensions, weights, thresholds, evidence-coverage rules, and confidence rules exactly.
+- If no approved numeric model exists, return qualitative scoring rather than fabricate a numeric model.
+- Every numeric score must be traceable to explicit evidence and the approved formula.
+- Unknown is not zero.
+- Report evidence coverage when the active scoring model defines it.
+- Confidence describes evidence completeness/reliability. Do not invent a numeric confidence percentage unless the active approved model defines one.
+- A high score does not clear suppression checks.
+
 ## Core output schema
 
 For each prospect/company, return:
@@ -74,14 +87,22 @@ For each prospect/company, return:
 company: ""
 contact: ""
 source: ""
-icp_score: 0
-intent_score: 0
-priority_score: 0
+icp_score: null
+icp_evidence_coverage: null
+intent_score: null
+intent_evidence_coverage: null
+relationship_network_score: null
+commercial_potential_score: null
+timing_score: null
+priority_score: null
+priority_band: ""
+priority_evidence_coverage: null
 qualification: qualified|review|disqualified|suppressed
 reasons:
   - ""
-suppression_flags:
-  - ""
+suppression_checks:
+  - check: ""
+    status: clear|flagged|unknown
 recommended_route: ""
 next_best_action: ""
 required_capabilities:
@@ -142,7 +163,7 @@ In particular:
 
 ## WLP specialization hook
 
-WLP-specific ICP, services, trade lanes, geography, customer types, qualification thresholds, exclusions, value proposition, and routing rules belong in `741/knowledge/wlp/`, not in this generic core file.
+For WLP tasks, use `741/knowledge/wlp/ICP.md` as the active WLP ICP/scoring authority. Its approved weights, formulas, priority bands, evidence-coverage rules, and confidence rules override generic scoring behavior. WLP services and company facts belong in the WLP knowledge layer, not in this generic core file.
 
 ## Portability
 
