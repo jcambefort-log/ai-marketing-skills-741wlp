@@ -32,11 +32,14 @@ Use for:
 2. **Separate evidence from claims**
    Flag:
    - unsupported numbers
+   - unsupported quantifiers or prevalence claims such as `many`, `most`, `leading`, `often`, `typically`, `commonly`, or equivalent language unless evidence supports them
    - invented customer facts
    - invented relationships or memberships
    - unverified performance claims
    - stale facts
    - claims requiring current research
+
+   Rephrase unsupported generalizations into evidence-neutral language when possible. Example: replace `Many freight forwarders need...` with `For freight forwarders that need...` unless current evidence supports the prevalence claim.
 
 3. **Select an explicit rubric**
    Choose dimensions appropriate to the artifact. Typical dimensions:
@@ -76,6 +79,7 @@ Use for:
 - Do not present simulated panel agreement as real expert validation.
 - Do not convert subjective quality scores into predicted reply rate, conversion rate, revenue, or ROI.
 - If evidence is missing for a central claim, factual-integrity deductions take precedence over persuasive polish.
+- Unsupported prevalence/generalization language is a factual-integrity issue even when no explicit number is present.
 
 ## Suggested default rubric
 
@@ -124,6 +128,7 @@ When working in WLP mode, pay special attention to:
 - pricing language
 - operational proof
 - freight volumes and savings claims
+- unsupported prevalence/generalization language about forwarders, customers, routes, markets, or industry behavior
 
 UNKNOWN remains UNKNOWN.
 
